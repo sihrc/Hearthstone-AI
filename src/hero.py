@@ -52,7 +52,8 @@ class Hero(Hearth):
 	def summon(self,target, position):
 		#TODO - max minions on field is 7
 		if len(self.field) < 7:
-			self.field.insert(position, target)	
+			self.field.insert(position, target)
+			target.applyEffect(target.effects.battlecry)
 
 	def attack(self, target):
 		self.canAttack -= 1
