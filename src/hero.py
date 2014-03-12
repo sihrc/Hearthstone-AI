@@ -150,8 +150,3 @@ class Warrior(Hero):
 	def power(self,target):
 		self.shield += 2
 		return 1
-
-
-if __name__ == "__main__":
-	player1 = Druid()
-	print player1

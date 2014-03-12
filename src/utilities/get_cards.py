@@ -56,8 +56,8 @@ def minionCode(minion):
 	races = {14:"murloc",15:"demon",20:"beast",21:"totem",23:"pirate",24:"dragon"}
 	descr = minion["description"] if "description" in minion else ""
 	race = races[minion["race"]] if "race" in minion else "normal"
-	return "class %s(Minion):\n\tdef minion(self):\n\t\tself.name = \"%s\"\n\t\tself.health = %d\n\t\tself.race = \"%s\"\n\t\tself.attack = %s\n\t\tself.cost = %d\n\t\tself.description = \"%s\"\n\n"\
-	 % ("_".join(minion["name"].lower().split()), minion["name"], minion["health"], race, minion["attack"], minion["cost"], descr)
+	return "class %s(Minion):\n\tdef minion(self):\n\t\tself.name = \"%s\"\n\t\tself.attack = %s\n\t\tself.health = %d\n\t\tself.cost = %d\n\t\tself.race = \"%s\"\n\t\tself.description = \"%s\"\n\n"\
+	 % ("_".join(re.sub(r'([^\s\w]|_)+', '', minion["name"].lower()).split()), minion["name"], minion["attack"], minion["health"], minion["cost"], race,  descr)
 
 def spellCode(spell):
 	"""
@@ -67,12 +67,11 @@ def spellCode(spell):
 
 def main(categ):
 	saveListToPickle(grabCardsFromDatabase(categ[0]), categ[1])
-	writeCode(loadListFromPickle(categ[1]), categ[1])
+	writeCode(loadListFromPickle(categ[1]), categ[1], categ[2])
 
 if __name__ == "__main__":
-	minions = ("http://www.hearthhead.com/cards=4", "minions.p")
-	spells = ("http://www.hearthhead.com/cards=5", "spells.p")
+	minions = ("http://www.hearthhead.com/cards=4", "minions.p", minionCode)
+	spells = ("http://www.hearthhead.com/cards=5", "spells.p", spellCode)
 
 	main(minions)
 
-class Spell(Hearth)
