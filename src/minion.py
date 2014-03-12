@@ -13,32 +13,36 @@ author: zach @ zhomans
 """	
 #Local Modules
 from general import Hearth
+import effects as E
+
+from collections import defaultdict as ddict
 
 class Minion(Hearth):
-	def init (self, health = 1, attack = 0, cost = 0, statuses = [], effects = [], owner = Hero()):
+	def init (self, health = 1, attack = 0, cost = 0, statuses = [], effects = ddict(E.Nothing), owner = Hero(), enemy = Hero()):
 		self.health = health
 		self.attack = attack
 		self.cost = cost
 		self.statuses = statuses
 		self.effects = effects
+		self.owner = owner
+		self.enemy = enemy
 		self.minion()
+		self.effects["battlecry"].apply(self.owner, self.enemy)
 
 	def attack(self, target):
 		target.receiveDamage(self.attack)
 		self.receiveDamage(target.attack)
 
 	def receiveDamage(self, damage):
+		self.effects["receive_damage"].apply(self.owner, self.enemy)
+		self.effects["receive_damage"].apply(self.owner, self.enemy) # TO-DO Add more
 		self.health -= damage
 		if self.health <= 0:
 			self.die()
 
 	def die(self):
-		self.applyEffect(self.effects.deathrattle)
+		self.applyEffect(self.effects["deathrattle"].apply(self.owner, self.enemy))
 		self.removeFromField()
-
-	def applyEffect(self, effect):
-		if effect != None:
-			effect.apply()
 
 	def removeFromField(self):
 		self.owner.field.remove(self)
