@@ -1,13 +1,23 @@
 class Effect:
-	def __init__(self):
+	def __init__(self, owner, enemy):
 		self.effect()
+		self.owner = owner
+		self.enemy = enemy
 
-	def apply(self, heroA, heroB):
+	def apply(self, target):
 		return self.execute(heroA, heroB)
 
 class Nothing(Effect):
-	def effect(self):
-		self.name = "no effect"
+	def __init__ (self):
+		self.name = "do nothing"
 
-	def execute(heroA, heroB):
+	def execute(self):
 		return 1
+
+class Damage(Effect):
+	def effect(self):
+		self.name = "deal damage"
+
+	def execute(self, target):
+		return 1
+
