@@ -8,16 +8,17 @@ import urllib2, re, json
 import pickle as p
 
 
-def grabCardsFromDatabase(url):
+def grabCardsFromDatabase(urls):
 	"""
 	Grabs HTML from hearthhead database and parses for hearthstone card json
 	"""
-	list_of_cards = []
-	page = urllib2.urlopen(url)
-	read = page.read()
-	jsonArray = re.search("var hearthstoneCards = .+?]",read).group(0)
-	exec(jsonArray[4:].replace("popularity",'"popularity"'))
-	list_of_cards.extend(hearthstoneCards)
+	for url in urls:
+		list_of_cards = []
+		page = urllib2.urlopen(url)
+		read = page.read()
+		jsonArray = re.search("var hearthstoneCards = .+?]",read).group(0)
+		exec(jsonArray[4:].replace("popularity",'"popularity"'))
+		list_of_cards.extend(hearthstoneCards)
 	return list_of_cards
 
 def saveListToPickle(l, filename):
@@ -55,10 +56,11 @@ def minionCode(minion):
 	"""
 	races = {14:"murloc",15:"demon",20:"beast",21:"totem",23:"pirate",24:"dragon"}
 	descr = minion["description"] if "description" in minion else ""
+	attack = minion["attack"] if "attack" in minion else 0
 	race = races[minion["race"]] if "race" in minion else "normal"
 	classs = classes[minion["classs"]] if "classs" in minion else "normal"
 	return "class %s(Minion):\n\tdef minion(self):\n\t\tself.name = \"%s\"\n\t\tself.classs = \"%s\"\n\t\tself.attack = %s\n\t\tself.health = %d\n\t\tself.cost = %d\n\t\tself.race = \"%s\"\n\t\tself.description = \"%s\"\n\n"\
-	 % ("_".join(re.sub(r'([^\s\w]|_)+', '', minion["name"].lower()).split()), minion["name"],  classs, minion["attack"], minion["health"], minion["cost"], race, descr)
+	 % ("_".join(re.sub(r'([^\s\w]|_)+', '', minion["name"].lower()).split()), minion["name"],  classs, attack, minion["health"], minion["cost"], race, descr)
 
 def spellCode(spell):
 	"""
@@ -85,8 +87,10 @@ def main(categ):
 
 if __name__ == "__main__":
 	classes = {1:"Warrior",2:"Paladin",3:"Hunter", 4:"Rogue", 5:"Priest",11:"Druid",7:"Shaman",8:"Mage",9:"Warlock"}
-	minions = ("http://www.hearthhead.com/cards=4", "minions.p", minionCode)
-	spells = ("http://www.hearthhead.com/cards=5", "spells.p", spellCode)
-	weapons = ("http://www.hearthhead.com/cards=7", "weapons.p", weaponCode)
+	minions = (["http://www.hearthhead.com/cards=4","http://www.hearthhead.com/cards?filter=type=4;uc=on"], "minions.p", minionCode)
+	spells = (["http://www.hearthhead.com/cards=5" ,"http://www.hearthhead.com/cards?filter=type=5;uc=on"], "spells.p", spellCode)
+	weapons = (["http://www.hearthhead.com/cards=7", "http://www.hearthhead.com/cards?filter=type=7;uc=on"], "weapons.p", weaponCode)
+	main(minions)
 	main(spells)
+	main(weapons)
 

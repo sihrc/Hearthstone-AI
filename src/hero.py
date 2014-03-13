@@ -72,6 +72,7 @@ class Hero(Hearth):
 	def getDamage(self):
 		return self.attack + self.weapon.attack
 
+	@action
 	def drawCards(self, num_cards):
 		retString = ""
 		if num_cards > 1:
