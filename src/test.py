@@ -40,15 +40,15 @@ def setupBoard(hero):
 	return hero, enemy
 
 @test
-def attackWithHeroPower(chris,enemy):
-	# log(chris, enemy)
-	chris.heroPower(enemy)
-	chris.attack_(enemy)
-	# log(chris, enemy)
+def attackWithHeroPower(hero,enemy):
+	# log(hero, enemy)
+	hero.heroPower(enemy)
+	hero.attack_(enemy)
+	# log(hero, enemy)
 
 @test
-def summoningMinion(chris,enemy, minion = M.silver_hand_recruit):
-	chris.summon(minion, 0)
+def summoningMinion(hero,enemy, minion = M.silver_hand_recruit):
+	hero.summon(minion, 0)
 
 
 if __name__ == "__main__":
