@@ -15,7 +15,7 @@ author: chris @ sihrc
 #Local Modules
 from wrappers import *
 
-import hearth as G
+import hearth as H
 import minion as M
 import weapon as W
 import deck as D
@@ -23,9 +23,10 @@ import deck as D
 #Python Modules
 import random
 
-class Hero(G.Hearth):
+class Hero(H.Hearth):
 	def __init__(self):
 		self.health = 30
+		self.maxHealth = 30
 		self.maxMana = 1
 		self.shield = 0
 		self.mana = 1
@@ -109,6 +110,11 @@ class Hero(G.Hearth):
 		 "Field:\n\t%s" % "\t\n".join([str(card) for card in self.field]),\
 		 "Deck:\t%d cards" % len(self.deck)])
 
+	@action
+	def equip(self, weapon):
+		self.weapon = weapon(self, self.enemy)
+
+
 class Druid(Hero):
 	def hero(self):
 		self.name = "Malfurion"
@@ -153,7 +159,7 @@ class Priest(Hero):
 		self.last = "Wrynn"
 
 	def power(self,target):
-		target.heal(self)
+		H.getTarget(self).heal(2)
 		return 1, "%s used hero power and healed %s by 2" % (self.name, target.name)
 
 class Rogue(Hero):
@@ -162,7 +168,7 @@ class Rogue(Hero):
 		self.last = "Sanguinar"
 
 	def power(self,target):
-		self.equip(weapon.dagger)
+		self.equip(W.wicked_knife)
 		return 1, "%s used hero power and equiped a 1/2 weapon" % (self.name)
 
 class Shaman(Hero):
@@ -173,7 +179,7 @@ class Shaman(Hero):
 	def power(self, target):
 		minions = [card for card in [M.healing_totem, M.searing_totem, M.wrath_of_air_totem, M.stoneclaw_totem] if card not in self.field]
 		if minions:
-			self.summon(random.choice(minions)(), -1)
+			self.summon(random.choice(minions), -1)
 			return 1, "%s used hero power" % (self.name)
 		return 0, "%s used hero power and failed"
 

@@ -25,6 +25,10 @@ def test(func):
 		return res
 	return wrapper
 
+"""
+TESTS
+"""
+
 @shutup
 def setupBoard(hero):
 	enemy = H.Druid()
@@ -37,11 +41,10 @@ def setupBoard(hero):
 
 @test
 def attackWithHeroPower(chris,enemy):
-	log(chris, enemy)
-	chris.turnUpdate()
+	# log(chris, enemy)
 	chris.heroPower(enemy)
 	chris.attack_(enemy)
-	log(chris, enemy)
+	# log(chris, enemy)
 
 @test
 def summoningMinion(chris,enemy, minion = M.silver_hand_recruit):
@@ -49,6 +52,6 @@ def summoningMinion(chris,enemy, minion = M.silver_hand_recruit):
 
 
 if __name__ == "__main__":
-	summoningMinion()
+	attackWithHeroPower()
 
 	
