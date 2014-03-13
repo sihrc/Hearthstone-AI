@@ -33,7 +33,7 @@ class Hero(H.Hearth):
 		self.weapon = W.NoWeapon()
 		self.canAttack = 1
 		self.attack = 0
-		self.attacked = 1
+		self.attacked = True
 		self.secrets = []
 		self.hand = []
 		self.field = []
@@ -71,9 +71,6 @@ class Hero(H.Hearth):
 			self.health += self.shield
 			self.shield = 0
 
-	def getDamage(self):
-		return self.attack + self.weapon.attack
-
 	@action
 	def drawCards(self, num_cards):
 		retString = ""
@@ -98,6 +95,14 @@ class Hero(H.Hearth):
 		self.mana = self.maxMana
 		self.canAttack = 1
 		self.usedPower = False
+		
+	def heroAttack(self):
+		target = H.getTarget(self)
+		self.weapon.attack_(target)
+		if self.attack > 0:
+			self.attack_(target)
+
+
 
 	def toString(self):
 		return "\n".join([self.name, "Health:\t%d" % self.health,\
@@ -112,7 +117,11 @@ class Hero(H.Hearth):
 
 	@action
 	def equip(self, weapon):
-		self.weapon = weapon(self, self.enemy)
+		equipThis = weapon(self, self.enemy)
+		if self.mana >= equipThis.cost:
+			self.mana -= equipThis.cost
+			self.weapon = equipThis
+
 
 
 class Druid(Hero):

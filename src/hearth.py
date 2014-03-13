@@ -27,12 +27,17 @@ class Hearth:
 	def getDamage(self):
 		return self.attack
 
+	def update(self):
+		if self.health == 0:
+			self.die() # TO-DO implement on all classes
+		self.turnUpdate()
+
 	@action
 	def attack_(self, target):
 		damage = self.getDamage()
 		if damage > 0:
 			self.canAttack -= 1
-			target.receiveDamage(damage)
+			target.receiveDamage(damage) 
 			self.receiveDamage(target.getDamage())
 			return "%s attacked %s dealing %d damage and taking %d damage" % (self.name, target.name, damage, target.getDamage())
 		return "%s tried to attack %s but failed" % (self.name, target.name)
@@ -52,7 +57,6 @@ def getTarget(hero):
 
 	while (True):
 		printChoices(choices)
-		print len(choices)
 		try:
 			a = int(raw_input("Pick a target"))
 		except:

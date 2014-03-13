@@ -6,8 +6,8 @@ See init functions for what attributes are included
 
 author: chris @ sihrc
 """	
-
-from hearth import Hearth
+from hearth import *
+from wrappers import *
 
 class Weapon(Hearth):
 	def init(self):
@@ -15,6 +15,16 @@ class Weapon(Hearth):
 
 	def receiveDamage(self, damage):
 		self.health -= 1
+
+	@action
+	def attack_(self, target):
+		damage = self.getDamage()
+		if damage > 0:
+			self.canAttack -= 1
+			target.receiveDamage(damage) 
+			self.receiveDamage(target.getDamage())
+			return "%s attacked %s dealing %d damage and loses 1 durability" % (self.owner.name, target.name, self.attack)
+		return "%s tried to attack %s but failed" % (self.owner, target.name)
 
 	def toString(self):
 		return "%s\n\tattack:%d\n\tdurability:%d\n\tcost:%d\n\tdescription:%s" % (self.name, self.attack, self.health, self.cost, self.description)

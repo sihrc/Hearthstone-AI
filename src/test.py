@@ -54,12 +54,13 @@ def summoningMinion(hero,enemy, minion = M.silver_hand_recruit):
 
 @test
 def equipWeapon(hero, enemy, weapon = W.ashbringer):
-	hero.turnUpdate()
-	hero.turnUpdate()
-	hero.turnUpdate()
+	# log(hero, enemy)
+	hero.update()
+	hero.update()
+	hero.update()
 	hero.equip(weapon)
-	hero.attack_(enemy)
+	hero.heroAttack()
+	# log(hero, enemy)
 
 if __name__ == "__main__":
-	equipWeapon()
-	
+	attackWithHeroPower()	
