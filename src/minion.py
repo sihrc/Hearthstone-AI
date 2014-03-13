@@ -2,11 +2,6 @@
 minion.py
 Contains definitions for Minion Class - Inherits Hearth
 
-Minion:
-	Holds information on a minion effects, statuses, and triggers
-Specific Minion:
-	Holds name and power information
-
 See init functions for what attributes are included
 
 author: zach @ zhomans
@@ -15,10 +10,9 @@ author: zach @ zhomans
 from general import Hearth
 import effects as E
 
-from collections import defaultdict as ddict
 
 class Minion(Hearth):
-	def init (self, health = 1, attack = 0, cost = 0, statuses = [], effects = ddict(E.Nothing)):
+	def init (self, health = 1, attack = 0, cost = 0, statuses = []):
 		self.health = health
 		self.attack = attack
 		self.cost = cost
@@ -49,6 +43,7 @@ class Minion(Hearth):
 
 	def toString(self):
 		return "\n".join([self.name, "Health:\t%d" % self.health, "Attack:\t%d" % self.attack, "Mana Cost:\t%d" % self.cost, "%s" % self.statuses])
+
 class abomination(Minion):
 	def minion(self):
 		self.name = "Abomination"

@@ -56,22 +56,37 @@ def minionCode(minion):
 	races = {14:"murloc",15:"demon",20:"beast",21:"totem",23:"pirate",24:"dragon"}
 	descr = minion["description"] if "description" in minion else ""
 	race = races[minion["race"]] if "race" in minion else "normal"
-	return "class %s(Minion):\n\tdef minion(self):\n\t\tself.name = \"%s\"\n\t\tself.attack = %s\n\t\tself.health = %d\n\t\tself.cost = %d\n\t\tself.race = \"%s\"\n\t\tself.description = \"%s\"\n\n"\
-	 % ("_".join(re.sub(r'([^\s\w]|_)+', '', minion["name"].lower()).split()), minion["name"], minion["attack"], minion["health"], minion["cost"], race,  descr)
+	classs = classes[minion["classs"]] if "classs" in minion else "normal"
+	return "class %s(Minion):\n\tdef minion(self):\n\t\tself.name = \"%s\"\n\t\tself.classs = \"%s\"\n\t\tself.attack = %s\n\t\tself.health = %d\n\t\tself.cost = %d\n\t\tself.race = \"%s\"\n\t\tself.description = \"%s\"\n\n"\
+	 % ("_".join(re.sub(r'([^\s\w]|_)+', '', minion["name"].lower()).split()), minion["name"],  classs, minion["attack"], minion["health"], minion["cost"], race, descr)
 
 def spellCode(spell):
 	"""
 	Helper Function to write Spell Class
 	"""
-	return "" #TO-DO
+	descr = spell["description"] if "description" in spell else ""
+	classs = classes[spell["classs"]] if "classs" in spell else "normal"
+	return "class %s(Spell):\n\tdef spell(self):\n\t\tself.name = \"%s\"\n\t\tself.classs = \"%s\"\n\t\tself.cost = %d\n\t\tself.description = \"%s\"\n\n"\
+	 % ("_".join(re.sub(r'([^\s\w]|_)+', '', spell["name"].lower()).split()), spell["name"], classs, spell["cost"], descr)
+
+def weaponCode(weapon):
+	"""
+	Helper Function to write Weapon Class
+	"""
+	descr = weapon["description"] if "description" in weapon else ""
+	classs = classes[weapon["classs"]] if "classs" in weapon else "normal"
+	return "class %s(Weapon):\n\tdef weapon(self):\n\t\tself.name = \"%s\"\n\t\tself.classs = \"%s\"\n\t\tself.attack = %s\n\t\tself.health = %d\n\t\tself.cost = %d\n\t\tself.description = \"%s\"\n\n"\
+	 % ("_".join(re.sub(r'([^\s\w]|_)+', '', weapon["name"].lower()).split()), weapon["name"], classs, weapon["attack"], weapon["durability"], weapon["cost"], descr)
+
 
 def main(categ):
 	saveListToPickle(grabCardsFromDatabase(categ[0]), categ[1])
 	writeCode(loadListFromPickle(categ[1]), categ[1], categ[2])
 
 if __name__ == "__main__":
+	classes = {1:"Warrior",2:"Paladin",3:"Hunter", 4:"Rogue", 5:"Priest",11:"Druid",7:"Shaman",8:"Mage",9:"Warlock"}
 	minions = ("http://www.hearthhead.com/cards=4", "minions.p", minionCode)
 	spells = ("http://www.hearthhead.com/cards=5", "spells.p", spellCode)
-
-	main(minions)
+	weapons = ("http://www.hearthhead.com/cards=7", "weapons.p", weaponCode)
+	main(spells)
 
