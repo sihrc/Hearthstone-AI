@@ -8,6 +8,8 @@ if __name__ == "__main__":
 	enemy = H.Druid()
 	for hero in [H.Druid, H.Paladin, H.Hunter, H.Mage, H.Priest, H.Warrior, H.Warlock, H.Shaman, H.Rogue]:
 		chris = hero()
+		chris.enemy = enemy
+		enemy.enemy = chris
 		print "=================="
 		print chris
 		print "=================="

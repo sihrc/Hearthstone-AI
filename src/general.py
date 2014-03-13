@@ -40,3 +40,14 @@ class Hearth:
 
 	def __str__(self):
 		return self.toString()
+
+def getTarget(heroA, heroB):
+	choices = [heorA, heroB]
+	choices.extend(heroA.field)
+	choices.extend(heroB.field)
+	for x,choice in enumerate(choices):
+		print "%d\t%s" % (x, choice.name)
+	a = int(raw_input("Pick a target"))
+	while (a not in xrange(len(choices))):
+		a = int(raw_input("Pick a target"))
+	return choices[a]
