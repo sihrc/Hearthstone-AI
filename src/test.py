@@ -1,6 +1,7 @@
 from hearth import *
 import hero as H
 import minion as M
+import weapon as W
 import effect as E
 
 import sys
@@ -51,7 +52,14 @@ def summoningMinion(hero,enemy, minion = M.silver_hand_recruit):
 	hero.summon(minion, 0)
 
 
-if __name__ == "__main__":
-	attackWithHeroPower()
+@test
+def equipWeapon(hero, enemy, weapon = W.ashbringer):
+	hero.turnUpdate()
+	hero.turnUpdate()
+	hero.turnUpdate()
+	hero.equip(weapon)
+	hero.attack_(enemy)
 
+if __name__ == "__main__":
+	equipWeapon()
 	
