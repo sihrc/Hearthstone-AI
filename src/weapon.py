@@ -7,7 +7,7 @@ See init functions for what attributes are included
 author: chris @ sihrc
 """	
 
-from general import Hearth
+from hearth import Hearth
 
 class Weapon(Hearth):
 	def init(self):
@@ -20,13 +20,14 @@ class Weapon(Hearth):
 		return "%s\n\tattack:%d\n\tdurability:%d\n\tcost:%d\n\tdescription:%s" % (self.name, self.attack, self.health, self.cost, self.description)
 
 class NoWeapon(Weapon):
-	def weapon(self):
+	def __init__(self):
 		self.name = "No Weapon"
 		self.attack = 0
 		self.health = 1
 		self.cost = 0
 		self.classs = "Normal"
 		self.description = ""
+
 class ashbringer(Weapon):
 	def weapon(self):
 		self.name = "Ashbringer"

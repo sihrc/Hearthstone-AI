@@ -7,7 +7,7 @@ See init functions for what attributes are included
 author: chris @ sihrc
 """	
 
-from general import Hearth
+from hearth import Hearth
 
 class Spell(Hearth):
 	def init(self):

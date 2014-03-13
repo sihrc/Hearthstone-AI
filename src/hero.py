@@ -13,9 +13,9 @@ author: chris @ sihrc
 """	
 
 #Local Modules
-from general import Hearth
 from wrappers import *
 
+import hearth as G
 import minion as M
 import weapon as W
 import deck as D
@@ -23,14 +23,14 @@ import deck as D
 #Python Modules
 import random
 
-class Hero(Hearth):
-	def init(self):
+class Hero(G.Hearth):
+	def __init__(self):
 		self.health = 30
-		self.maxHealth = 30
 		self.maxMana = 1
 		self.shield = 0
 		self.mana = 1
 		self.weapon = W.NoWeapon()
+		self.canAttack = 1
 		self.attack = 0
 		self.attacked = 1
 		self.secrets = []
@@ -38,6 +38,7 @@ class Hero(Hearth):
 		self.field = []
 		self.deck = D.Deck()
 		self.usedPower = False
+		self.owner = self
 		self.hero()
 
 	@action
@@ -57,10 +58,10 @@ class Hero(Hearth):
 	
 	@action	
 	def summon(self,target, position):
-		#TODO - max minions on field is 7
+		target = target(self.owner, self.enemy)
 		if len(self.field) < 7:
 			self.field.insert(position, target)
-			target.applyEffect(target.effects.battlecry)
+			target.effects["battlecry"].apply()
 		return "%s has summoned %s at position %d" % (self.name, target.name, position)
 
 	def receiveDamage(self, damage):
@@ -110,7 +111,8 @@ class Hero(Hearth):
 
 class Druid(Hero):
 	def hero(self):
-		self.name = "Malfurion Stormrage"
+		self.name = "Malfurion"
+		self.last = "Stormrage"
 
 	def power(self, target):
 		self.shield += 1
@@ -127,7 +129,8 @@ class Hunter(Hero):
 
 class Mage(Hero):
 	def hero(self):
-		self.name = "Jaina Proudmoore"
+		self.name = "Jaina"
+		self.last = "Proudmoore"
 
 	def power(self, target):
 		if target.name == "Faerie Dragon":
@@ -137,7 +140,8 @@ class Mage(Hero):
 
 class Paladin(Hero):
 	def hero(self):
-		self.name = "Uther Lightbringer"
+		self.name = "Uther"
+		self.last = "Lightbringer"
 
 	def power(self,target):
 		self.summon(M.silver_hand_recruit, -1)
@@ -145,7 +149,8 @@ class Paladin(Hero):
 
 class Priest(Hero):
 	def hero(self):
-		self.name = "Anduin Wrynn"
+		self.name = "Anduin"
+		self.last = "Wrynn"
 
 	def power(self,target):
 		target.heal(self)
@@ -153,7 +158,8 @@ class Priest(Hero):
 
 class Rogue(Hero):
 	def hero(self):
-		self.name = "Valeera Sanguinar"
+		self.name = "Valeera"
+		self.last = "Sanguinar"
 
 	def power(self,target):
 		self.equip(weapon.dagger)
@@ -162,17 +168,19 @@ class Rogue(Hero):
 class Shaman(Hero):
 	def hero(self):
 		self.name = "Thrall"
+		self.last = ""
 
 	def power(self, target):
 		minions = [card for card in [M.healing_totem, M.searing_totem, M.wrath_of_air_totem, M.stoneclaw_totem] if card not in self.field]
 		if minions:
-			self.summon(random.choice(minions), -1)
+			self.summon(random.choice(minions)(), -1)
 			return 1, "%s used hero power" % (self.name)
 		return 0, "%s used hero power and failed"
 
 class Warlock(Hero):
 	def hero(self):
 		self.name = "Gul'dan"
+		self.last = ""
 
 	def power(self,target):
 		self.health -= 2
@@ -181,7 +189,8 @@ class Warlock(Hero):
 
 class Warrior(Hero):
 	def hero(self):
-		self.name = "Garrosh Hellscream"
+		self.name = "Garrosh"
+		self.last = "Hellscream"
 
 	def power(self,target):
 		self.shield += 2

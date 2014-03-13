@@ -1,22 +1,22 @@
 """
-General Classes for all Objects
+hearth Classes for all Objects
 author: chris @ sihrc
 """
 #Local Modules
-import effects as E
+import effect as E
 from wrappers import *
 
 #Python modules
 from collections import defaultdict as ddict
 
 class Hearth:
-	def __init__(self, owner = None, enemy = None, health = 0, attack = 0, canAttack = 1, effects = ddict(E.Nothing)):
+	def __init__(self, owner = None , enemy = None, health = 0, attack = 0, canAttack = 1):
 		self.health = health
 		self.attack = attack
 		self.canAttack = canAttack
 		self.owner = owner
 		self.enemy = enemy
-		self.effects = effects
+		self.effects = ddict(E.Nothing)
 		self.init()
 
 	def heal(self, amount):
@@ -41,13 +41,25 @@ class Hearth:
 	def __str__(self):
 		return self.toString()
 
-def getTarget(heroA, heroB):
-	choices = [heorA, heroB]
-	choices.extend(heroA.field)
-	choices.extend(heroB.field)
-	for x,choice in enumerate(choices):
-		print "%d\t%s" % (x, choice.name)
-	a = int(raw_input("Pick a target"))
-	while (a not in xrange(len(choices))):
-		a = int(raw_input("Pick a target"))
-	return choices[a]
+def getTarget(hero):
+	def printChoices(choices):
+		for x,choice in enumerate(choices):
+			print "%d\t%s" % (x, choice.name)
+
+	choices = [hero, hero.enemy]
+	choices.extend(hero.field)
+	choices.extend(hero.enemy.field)
+
+	while (True):
+		printChoices(choices)
+		print len(choices)
+		try:
+			a = int(raw_input("Pick a target"))
+		except:
+			print "Integer please"
+			continue
+		if int(a) not in xrange(len(choices)):
+			print "Invalid"
+			continue
+		break
+	return choices[int(a)]

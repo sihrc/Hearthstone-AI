@@ -7,8 +7,8 @@ See init functions for what attributes are included
 author: zach @ zhomans
 """	
 #Local Modules
-from general import Hearth
-import effects as E
+from hearth import *
+import effect as E
 
 
 class Minion(Hearth):
@@ -17,25 +17,22 @@ class Minion(Hearth):
 		self.attack = attack
 		self.cost = cost
 		self.statuses = statuses
-		self.effects = effects
-		self.owner = owner
-		self.enemy = enemy
 		self.minion()
-		self.effects["battlecry"].apply(self.owner, self.enemy)
+		self.effects["battlecry"].apply()
 
 	def attack(self, target):
 		target.receiveDamage(self.attack)
 		self.receiveDamage(target.attack)
 
 	def receiveDamage(self, damage):
-		self.effects["receive_damage"].apply(self.owner, self.enemy)
-		self.effects["receive_damage"].apply(self.owner, self.enemy) # TO-DO Add more
+		self.effects["receive_damage"].apply()
+		self.effects["receive_damage"].apply() # TO-DO Add more
 		self.health -= damage
 		if self.health <= 0:
 			self.die()
 
 	def die(self):
-		self.applyEffect(self.effects["deathrattle"].apply(self.owner, self.enemy))
+		self.effects["deathrattle"].apply()
 		self.removeFromField()
 
 	def removeFromField(self):
@@ -43,6 +40,7 @@ class Minion(Hearth):
 
 	def toString(self):
 		return "\n".join([self.name, "Health:\t%d" % self.health, "Attack:\t%d" % self.attack, "Mana Cost:\t%d" % self.cost, "%s" % self.statuses])
+
 class avatar_of_the_coin(Minion):
 	def minion(self):
 		self.name = "Avatar of the Coin"
