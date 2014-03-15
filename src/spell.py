@@ -10,12 +10,15 @@ author: chris @ sihrc
 from hearth import *
 from wrappers import *
 import minion as M
+import Effect as E
+
 
 class Spell(Hearth):
-	def __init__(self, owner):
+	def __init__(self, owner, origin = None):
 		self.health = 0
 		self.owner = owner
 		self.enemy = owner.enemy
+		self.origin = origin
 		self.spell()
 	
 	def toString(self):
@@ -67,12 +70,21 @@ class barrel_toss(Spell):
 		self.cost = 1
 		self.description = "Deal 2 damage."
 
+	def cast(self):
+		target = getTarget(self.owner)
+		target.receiveDamage(2)
+
+
 class bear_form(Spell):
 	def spell(self):
 		self.name = "Bear Form"
 		self.classs = "Druid"
 		self.cost = 0
 		self.description = "+2 Health and Taunt."
+
+	def cast(self):
+		self.origin.health += 2
+		self.origin.taunt = True
 
 class cat_form(Spell):
 	def spell(self):
@@ -88,12 +100,20 @@ class demigods_favor(Spell):
 		self.cost = 0
 		self.description = "Give your other minions +2\/+2."
 
+	def cost(self):
+		for minion in self.owner.field:
+			minion.attack += 2
+			minion.health += 2
+
 class dispel(Spell):
 	def spell(self):
 		self.name = "Dispel"
 		self.classs = "Druid"
 		self.cost = 0
 		self.description = "Silence a minion."
+
+	def cost(self):
+
 
 class dream(Spell):
 	def spell(self):

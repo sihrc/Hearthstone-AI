@@ -16,7 +16,7 @@ class Hearth:
 		self.canAttack = canAttack
 		self.owner = owner
 		self.enemy = enemy
-		self.effects = ddict(E.Nothing)
+		self.effects = ddict([E.Nothing])
 		self.init()
 
 	@action
@@ -25,9 +25,6 @@ class Hearth:
 		if self.health > self.maxHealth:
 			self.health = self.maxHealth
 		return "%d health has been restored to %s" % (amount, self.name)
-
-	def getDamage(self):
-		return self.attack
 
 	def update(self):
 		if self.health == 0:
@@ -44,6 +41,9 @@ class Hearth:
 			return "%s attacked %s dealing %d damage and taking %d damage" % (self.name, target.name, damage, target.getDamage())
 		return "%s tried to attack %s but failed" % (self.name, target.name)
 
+	def applyEffects(self):
+		for effect in self.effects["Do"]:
+			effect.apply()
 
 	def __str__(self):
 		return self.toString()

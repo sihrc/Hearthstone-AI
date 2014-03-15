@@ -14,11 +14,15 @@ import effect as E
 class Minion(Hearth):
 	def init (self, health = 1, attack = 0, cost = 0, statuses = []):
 		self.health = health
+		self.taunt = False
 		self.attack = attack
 		self.cost = cost
 		self.statuses = statuses
 		self.minion()
-		self.effects["battlecry"].apply()
+		
+	def action(self):
+		for effect in self.effects["battlecry"]:
+			effect.apply()
 
 	def attack(self, target):
 		target.receiveDamage(self.attack)

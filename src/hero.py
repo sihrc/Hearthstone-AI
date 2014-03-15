@@ -71,11 +71,14 @@ class Hero(H.Hearth):
 			target.effects["battlecry"].apply()
 		return "%s has summoned %s at position %d" % (self.name, target.name, position)
 
+	@action
 	def receiveDamage(self, damage):
 		self.shield -= damage
 		if self.shield < 0:
 			self.health += self.shield
 			self.shield = 0
+		return "%s has received %d damage" % (self.name, damage)
+
 
 	@action
 	def drawCards(self, num_cards):

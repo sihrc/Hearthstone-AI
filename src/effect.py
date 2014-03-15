@@ -39,3 +39,18 @@ class SingleDamage(Effect):
 		self.target.receiveDamage(self.damage)
 		return 1
 
+class Taunt(Effect):
+	def effect(self):
+		self.name = "Taunt"
+		self.needTarget = True
+
+	def execute(self):
+		self.target.becomeTaunt()
+
+class Silence(Effect):
+	def effect(self):
+		self.name = "Silence"
+		self.needTarget = True
+
+	def execute(self):
+		self.target.effects = H.ddict([E.Nothing])
