@@ -30,6 +30,7 @@ class Hero(H.Hearth):
 		self.maxMana = 1
 		self.shield = 0
 		self.mana = 1
+		self.manaOverload = 0
 		self.weapon = W.NoWeapon()
 		self.canAttack = 1
 		self.attack = 0
@@ -53,9 +54,14 @@ class Hero(H.Hearth):
 		else:
 			return "%s hero power on %s failed" % (self.name, target.name)
 
-	def playCard(self, target):
-		self.hand.remove(target)
-		return target.action()
+	@action
+	def playCard(self, card):
+		if self.mana >= card.cost:
+			self.hand.remove(card)
+			self.mana -= card.cost
+			return card.action()
+		else:
+			return "%s tried to use %s but failed due to insufficient mana" % (self.name, target.name)
 	
 	@action	
 	def summon(self,target, position):
@@ -92,7 +98,8 @@ class Hero(H.Hearth):
 	def turnUpdate(self):
 		self.drawCards(1)
 		self.maxMana = self.maxMana + 1 if self.maxMana < 10 else self.maxMana
-		self.mana = self.maxMana
+		self.mana = self.maxMana - self.manaOverload
+		self.manaOverload = 0
 		self.canAttack = 1
 		self.usedPower = False
 		
