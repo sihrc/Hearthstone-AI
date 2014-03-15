@@ -20,7 +20,7 @@ class Spell(Hearth):
 	
 	def toString(self):
 		return "%s\n\tcost:%d\n\tdescription:%s" % (self.name, self.cost, self.description)
-		
+
 	def action(self):
 		self.cast()
 
@@ -57,7 +57,8 @@ class bananas(Spell):
 			target = getTarget(self.owner)
 			if isinstance(target, M.Minion):
 				target.attack += 1
-				target.armor += 1
+				target.health += 1
+				break
 
 class barrel_toss(Spell):
 	def spell(self):

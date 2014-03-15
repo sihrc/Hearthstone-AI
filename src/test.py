@@ -75,4 +75,4 @@ def useSpell(hero, enemy, spell = S.ancient_secrets):
 	log(hero, enemy)
 
 if __name__ == "__main__":
-	useSpell(spell = S.ancient_secrets)
+	useSpell(spell = S.ancient_secrets) #TODO - Implement for all spells
