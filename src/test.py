@@ -3,6 +3,7 @@ import hero as H
 import minion as M
 import weapon as W
 import effect as E
+import spell as S
 
 import sys
 
@@ -22,6 +23,7 @@ def test(func):
 			print
 			print "%s passed" % (hero.name)
 			div()
+			raw_input()
 
 		return res
 	return wrapper
@@ -36,8 +38,8 @@ def setupBoard(hero):
 	hero = hero()
 	enemy.enemy = hero
 	hero.enemy = enemy
-	hero.turnUpdate()
-	enemy.turnUpdate()
+	hero.update()
+	enemy.update()
 	return hero, enemy
 
 @test
@@ -62,5 +64,15 @@ def equipWeapon(hero, enemy, weapon = W.ashbringer):
 	hero.heroAttack()
 	# log(hero, enemy)
 
+@test
+def useSpell(hero, enemy, spell = S.ancient_secrets):
+	hero.update()
+	hero.update()
+	hero.update()
+	hero.hand.append(spell(hero))
+	log(hero, enemy)
+	hero.playCard(hero.hand[0])
+	log(hero, enemy)
+
 if __name__ == "__main__":
-	attackWithHeroPower()	
+	useSpell(spell = S.ancient_secrets)

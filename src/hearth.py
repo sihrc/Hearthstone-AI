@@ -19,10 +19,12 @@ class Hearth:
 		self.effects = ddict(E.Nothing)
 		self.init()
 
+	@action
 	def heal(self, amount):
 		self.health += amount
 		if self.health > self.maxHealth:
 			self.health = self.maxHealth
+		return "%d health has been restored to %s" % (amount, self.name)
 
 	def getDamage(self):
 		return self.attack

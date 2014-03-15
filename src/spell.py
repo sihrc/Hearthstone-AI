@@ -7,21 +7,33 @@ See init functions for what attributes are included
 author: chris @ sihrc
 """	
 
-from hearth import Hearth
+from hearth import *
+from wrappers import *
+import minion as M
 
 class Spell(Hearth):
-	def init(self):
+	def __init__(self, owner):
 		self.health = 0
+		self.owner = owner
+		self.enemy = owner.enemy
 		self.spell()
+	
+	def toString(self):
+		return "%s\n\tcost:%d\n\tdescription:%s" % (self.name, self.cost, self.description)
 		
-	def applyEffects(self):
-		return #TODO
+	def action(self):
+		self.cast()
+
 class ancient_secrets(Spell):
 	def spell(self):
 		self.name = "Ancient Secrets"
 		self.classs = "Druid"
 		self.cost = 0
 		self.description = "Restore 5 Health."
+
+	def cast(self):
+		getTarget(self.owner).heal(5)
+
 
 class ancient_teachings(Spell):
 	def spell(self):
@@ -30,12 +42,22 @@ class ancient_teachings(Spell):
 		self.cost = 0
 		self.description = "Draw 2 cards."
 
+	def cast(self):
+		self.owner.drawCards(2)
+
 class bananas(Spell):
 	def spell(self):
 		self.name = "Bananas"
 		self.classs = "normal"
 		self.cost = 1
 		self.description = "Give a minion +1\/+1."
+
+	def cast(self):
+		while True:
+			target = getTarget(self.owner)
+			if isinstance(target, M.Minion):
+				target.attack += 1
+				target.armor += 1
 
 class barrel_toss(Spell):
 	def spell(self):
