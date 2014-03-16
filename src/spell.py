@@ -37,7 +37,6 @@ class ancient_secrets(Spell):
 	def cast(self):
 		getTarget(self.owner).heal(5)
 
-
 class ancient_teachings(Spell):
 	def spell(self):
 		self.name = "Ancient Teachings"
@@ -56,12 +55,10 @@ class bananas(Spell):
 		self.description = "Give a minion +1\/+1."
 
 	def cast(self):
-		while True:
-			target = getTarget(self.owner)
-			if isinstance(target, M.Minion):
-				target.attack += 1
-				target.health += 1
-				break
+		if isinstance(target, M.Minion):
+			target.attack += 1
+			target.health += 1
+			break
 
 class barrel_toss(Spell):
 	def spell(self):
@@ -83,8 +80,8 @@ class bear_form(Spell):
 		self.description = "+2 Health and Taunt."
 
 	def cast(self):
-		self.origin.health += 2
-		self.origin.taunt = True
+		self.origin.effects["health"] = 2
+		self.origin.effects["taunt"] = True
 
 class cat_form(Spell):
 	def spell(self):
@@ -92,6 +89,9 @@ class cat_form(Spell):
 		self.classs = "Druid"
 		self.cost = 0
 		self.description = "Charge"
+
+	def case(self):
+		self.origin.effects["charge"] = True
 
 class demigods_favor(Spell):
 	def spell(self):
@@ -102,8 +102,8 @@ class demigods_favor(Spell):
 
 	def cost(self):
 		for minion in self.owner.field:
-			minion.attack += 2
-			minion.health += 2
+			minion.effects["attack"] = 2
+			minion.effects["health"] = 2
 
 class dispel(Spell):
 	def spell(self):
@@ -113,6 +113,7 @@ class dispel(Spell):
 		self.description = "Silence a minion."
 
 	def cost(self):
+		for self.target.effects = ddict(No)
 
 
 class dream(Spell):

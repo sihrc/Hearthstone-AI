@@ -85,6 +85,8 @@ def main(categ):
 	saveListToPickle(grabCardsFromDatabase(categ[0]), categ[1])
 	writeCode(loadListFromPickle(categ[1]), categ[1], categ[2])
 
+def createDeck(url):
+	#To-Do get deck from internets
 if __name__ == "__main__":
 	classes = {1:"Warrior",2:"Paladin",3:"Hunter", 4:"Rogue", 5:"Priest",11:"Druid",7:"Shaman",8:"Mage",9:"Warlock"}
 	minions = (["http://www.hearthhead.com/cards=4","http://www.hearthhead.com/cards?filter=type=4;uc=on"], "minions.p", minionCode)

@@ -10,22 +10,21 @@ author: chris @ sihrc
 import hearth as H
 
 class Effect:
-	def __init__(self, owner = None, enemy = None, damage = 0):
+	def __init__(self, owner = None, amount = 0, target = None):
 		self.owner = owner
-		self.enemy = enemy
-		self.effect()
+		self.enemy = owner.enemy
+		self.amount = amount
+		self.target = target
+		self.effect()	
 
 	def apply(self):
-		if self.needTarget:
-			self.target = H.getTarget()
 		self.execute()
 
 
 class Nothing(Effect):
 	def __init__ (self):
 		self.name = "do nothing"
-		self.needTarget = False
-
+		self.needTarget = F
 	def apply(self):
 		return 0
 
@@ -33,10 +32,9 @@ class Nothing(Effect):
 class SingleDamage(Effect):
 	def effect(self):
 		self.name = "deal damage"
-		self.needTarget = True
 
 	def execute(self):
-		self.target.receiveDamage(self.damage)
+		self.target.receiveDamage(self.amount)
 		return 1
 
 class Taunt(Effect):
@@ -45,12 +43,26 @@ class Taunt(Effect):
 		self.needTarget = True
 
 	def execute(self):
-		self.target.becomeTaunt()
+		self.origin.taunt = True
 
 class Silence(Effect):
 	def effect(self):
 		self.name = "Silence"
-		self.needTarget = True
 
 	def execute(self):
 		self.target.effects = H.ddict([E.Nothing])
+
+class Health(Effect):
+	def effect(self):
+		self.name =  "Grant Health"
+
+	def execute(self):
+		self.target.health += self.amount
+		self.target.maxHealth += self.amount
+
+class Heal(Effect):
+	def effect(self):
+		self.name = "Restore Heal"
+
+	def execute(self):
+		self.target.heal(self.amount)

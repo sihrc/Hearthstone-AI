@@ -42,7 +42,7 @@ class Hearth:
 		return "%s tried to attack %s but failed" % (self.name, target.name)
 
 	def applyEffects(self):
-		for effect in self.effects["Do"]:
+		for effect in self.effects["Once"]:
 			effect.apply()
 
 	def __str__(self):

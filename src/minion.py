@@ -1,10 +1,10 @@
-"""
+ """
 minion.py
 Contains definitions for Minion Class - Inherits Hearth
 
 See init functions for what attributes are included
 
-author: zach @ zhomans
+author: chris @ sihrc
 """	
 #Local Modules
 from hearth import *
@@ -29,8 +29,6 @@ class Minion(Hearth):
 		self.receiveDamage(target.attack)
 
 	def receiveDamage(self, damage):
-		self.effects["receive_damage"].apply()
-		self.effects["receive_damage"].apply() # TO-DO Add more
 		self.health -= damage
 		if self.health <= 0:
 			self.die()
