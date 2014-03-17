@@ -4,7 +4,7 @@ import minion as M
 import weapon as W
 import effect as E
 import spell as S
-
+import game as G
 import sys
 
 def test(func):
@@ -75,4 +75,5 @@ def useSpell(hero, enemy, spell = S.ancient_secrets):
 	log(hero, enemy)
 
 if __name__ == "__main__":
-	useSpell(spell = S.ancient_secrets) #TODO - Implement for all spells
+	game = G.Game()
+	

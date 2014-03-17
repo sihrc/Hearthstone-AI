@@ -90,11 +90,11 @@ class Hero(H.Hearth):
 			self.deck.overDrawn += 1
 			return "%s is out of cards and loses %d health" % (self.name, self.deck.overDrawn - 1)
 		elif len(self.hand) >= 10:
-			card = self.deck.getCard(self)
+			card = self.deck.drawCard()
 			card.discard(self)
 			return "%s has a full hand. %s is discarded" % (self.name, card.name)
 		else:
-			card = self.deck.getCard(self)
+			card = self.deck.drawCard()(self)
 			self.hand.append(card)
 			return "%s has drawn %s" % (self.name, card.name)
 

@@ -6,8 +6,23 @@ See effect functions for what attributes are included
 
 author: chris @ sihrc
 """	
-
 import hearth as H
+
+class Effects:
+	def __init__(self, effects = {}):
+		self.effects = effects
+
+	def add(self, name, effect):
+		if name not in self.effects:
+			self.effects[name] = []
+		self.effects[name].append(effect)
+
+	def get(self, name):
+		if name in self.effects[name]:
+			return self.effects[name]
+		else:
+			return [Nothing]
+
 
 class Effect:
 	def __init__(self, owner = None, amount = 0, target = None):
@@ -57,7 +72,6 @@ class Health(Effect):
 		self.name =  "Grant Health"
 
 	def execute(self):
-		self.target.health += self.amount
 		self.target.maxHealth += self.amount
 
 class Heal(Effect):

@@ -4,7 +4,8 @@ Utilities file to help download and write classes for cards in hearthstone
 author: chris @ sihrc
 """
 
-import urllib2, re, json
+import urllib2, re, json, os
+from bs4 import BeautifulSoup as soup
 import pickle as p
 
 
@@ -12,13 +13,13 @@ def grabCardsFromDatabase(urls):
 	"""
 	Grabs HTML from hearthhead database and parses for hearthstone card json
 	"""
+	list_of_cards = []
 	for url in urls:
-		list_of_cards = []
 		page = urllib2.urlopen(url)
 		read = page.read()
 		jsonArray = re.search("var hearthstoneCards = .+?]",read).group(0)
-		exec(jsonArray[4:].replace("popularity",'"popularity"'))
-		list_of_cards.extend(hearthstoneCards)
+		exec(jsonArray[4:].replace("popularity",'"popularity"').replace("\"", "\\\""))
+		list_of_cards += hearthstoneCards
 	return list_of_cards
 
 def saveListToPickle(l, filename):
@@ -85,14 +86,36 @@ def main(categ):
 	saveListToPickle(grabCardsFromDatabase(categ[0]), categ[1])
 	writeCode(loadListFromPickle(categ[1]), categ[1], categ[2])
 
-def createDeck(url):
-	#To-Do get deck from internets
+def createDeck(classs, url):
+	page = soup(urllib2.urlopen(url).read())
+	deckName = re.search("/deck.+/",url).group(0)[1:-1].replace("=","_")
+	with open (os.path.join("..","decks","__init__.py"), 'ab') as f:
+		f.write("import %s_%s\n" % (classs, deckName))
+	with open(os.path.join("..","decks","%s_%s.py" % (classs, deckName)), 'wb') as f:
+		f.write("import minion as M\nimport weapon as W\nimport spell as S\nimport deck as D\ncards = [")
+		for cardType in page.find_all("div",attrs={"class":"deckguide-cards-type"}):
+			code = cardType.h3.text.split()[0][0] + ".%s,"
+			for card in cardType.find_all("li"):
+				cardText = re.sub(r'([^\s\w]|_)+', '', card.text.lower())
+				split = cardText.split()
+				if ("x2" in cardText):
+					f.write(code % ("_".join(split[:-1])))
+					f.write(code % ("_".join(split[:-1])))
+				else:
+					f.write(code % ("_".join(split)))
+		f.write("]\ndeck = D.Deck(cards)")
+
 if __name__ == "__main__":
 	classes = {1:"Warrior",2:"Paladin",3:"Hunter", 4:"Rogue", 5:"Priest",11:"Druid",7:"Shaman",8:"Mage",9:"Warlock"}
 	minions = (["http://www.hearthhead.com/cards=4","http://www.hearthhead.com/cards?filter=type=4;uc=on"], "minions.p", minionCode)
 	spells = (["http://www.hearthhead.com/cards=5" ,"http://www.hearthhead.com/cards?filter=type=5;uc=on"], "spells.p", spellCode)
 	weapons = (["http://www.hearthhead.com/cards=7", "http://www.hearthhead.com/cards?filter=type=7;uc=on"], "weapons.p", weaponCode)
-	main(minions)
-	main(spells)
-	main(weapons)
+	# main(minions)
+	# main(spells)
+	# main(weapons)
+	"""
+	Making Decks
+	"""
+	createDeck("Druid", "http://www.hearthhead.com/deck=550/basic-druid")
+	createDeck("Hunter", "http://www.hearthhead.com/deck=586/basic-hunter-deck")
 

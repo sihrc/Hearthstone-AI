@@ -6,8 +6,6 @@ author: chris @ sihrc
 import effect as E
 from wrappers import *
 
-#Python modules
-from collections import defaultdict as ddict
 
 class Hearth:
 	def __init__(self, owner = None , enemy = None, health = 0, attack = 0, canAttack = 1):
@@ -16,7 +14,7 @@ class Hearth:
 		self.canAttack = canAttack
 		self.owner = owner
 		self.enemy = enemy
-		self.effects = ddict([E.Nothing])
+		self.effects = E.Effects()
 		self.init()
 
 	@action
@@ -42,7 +40,7 @@ class Hearth:
 		return "%s tried to attack %s but failed" % (self.name, target.name)
 
 	def applyEffects(self):
-		for effect in self.effects["Once"]:
+		for effect in self.effects["once"]:
 			effect.apply()
 
 	def __str__(self):

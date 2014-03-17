@@ -38,12 +38,30 @@ class NoWeapon(Weapon):
 		self.classs = "Normal"
 		self.description = ""
 
+class arcanite_reaper(Weapon):
+	def weapon(self):
+		self.name = "Arcanite Reaper"
+		self.classs = "Warrior"
+		self.attack = 5
+		self.health = 2
+		self.cost = 5
+		self.description = ""
+
 class ashbringer(Weapon):
 	def weapon(self):
 		self.name = "Ashbringer"
 		self.classs = "Paladin"
 		self.attack = 5
 		self.health = 3
+		self.cost = 5
+		self.description = ""
+
+class assassins_blade(Weapon):
+	def weapon(self):
+		self.name = "Assassin's Blade"
+		self.classs = "Rogue"
+		self.attack = 3
+		self.health = 4
 		self.cost = 5
 		self.description = ""
 
@@ -65,6 +83,15 @@ class blood_fury(Weapon):
 		self.cost = 3
 		self.description = ""
 
+class doomhammer(Weapon):
+	def weapon(self):
+		self.name = "Doomhammer"
+		self.classs = "Shaman"
+		self.attack = 2
+		self.health = 8
+		self.cost = 5
+		self.description = "Windfury, Overload: (2)"
+
 class dual_warglaives(Weapon):
 	def weapon(self):
 		self.name = "Dual Warglaives"
@@ -74,6 +101,42 @@ class dual_warglaives(Weapon):
 		self.cost = 6
 		self.description = ""
 
+class eaglehorn_bow(Weapon):
+	def weapon(self):
+		self.name = "Eaglehorn Bow"
+		self.classs = "Hunter"
+		self.attack = 3
+		self.health = 2
+		self.cost = 3
+		self.description = "Whenever a Secret is revealed, gain +1 Durability."
+
+class fiery_war_axe(Weapon):
+	def weapon(self):
+		self.name = "Fiery War Axe"
+		self.classs = "Warrior"
+		self.attack = 3
+		self.health = 2
+		self.cost = 2
+		self.description = ""
+
+class gladiators_longbow(Weapon):
+	def weapon(self):
+		self.name = "Gladiator's Longbow"
+		self.classs = "Hunter"
+		self.attack = 5
+		self.health = 2
+		self.cost = 7
+		self.description = "Your hero is Immune while attacking."
+
+class gorehowl(Weapon):
+	def weapon(self):
+		self.name = "Gorehowl"
+		self.classs = "Warrior"
+		self.attack = 7
+		self.health = 1
+		self.cost = 7
+		self.description = "Attacking a minion costs 1 Attack instead of 1 Durability."
+
 class heavy_axe(Weapon):
 	def weapon(self):
 		self.name = "Heavy Axe"
@@ -82,6 +145,51 @@ class heavy_axe(Weapon):
 		self.health = 3
 		self.cost = 1
 		self.description = ""
+
+class lights_justice(Weapon):
+	def weapon(self):
+		self.name = "Light's Justice"
+		self.classs = "Paladin"
+		self.attack = 1
+		self.health = 4
+		self.cost = 1
+		self.description = ""
+
+class perditions_blade(Weapon):
+	def weapon(self):
+		self.name = "Perdition's Blade"
+		self.classs = "Rogue"
+		self.attack = 2
+		self.health = 2
+		self.cost = 3
+		self.description = "Battlecry: Deal 1 damage. Combo: Deal 2 instead."
+
+class stormforged_axe(Weapon):
+	def weapon(self):
+		self.name = "Stormforged Axe"
+		self.classs = "Shaman"
+		self.attack = 2
+		self.health = 3
+		self.cost = 2
+		self.description = "Overload: (1)"
+
+class sword_of_justice(Weapon):
+	def weapon(self):
+		self.name = "Sword of Justice"
+		self.classs = "Paladin"
+		self.attack = 1
+		self.health = 5
+		self.cost = 3
+		self.description = "Whenever you summon a minion, give it +1\/+1 and this loses 1 Durability."
+
+class truesilver_champion(Weapon):
+	def weapon(self):
+		self.name = "Truesilver Champion"
+		self.classs = "Paladin"
+		self.attack = 4
+		self.health = 2
+		self.cost = 4
+		self.description = "Whenever your hero attacks, restore 2 Health to it."
 
 class warglaive_of_azzinoth(Weapon):
 	def weapon(self):
@@ -100,3 +208,4 @@ class wicked_knife(Weapon):
 		self.health = 2
 		self.cost = 1
 		self.description = ""
+
