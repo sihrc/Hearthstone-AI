@@ -27,7 +27,10 @@ class Hearth:
 	def update(self):
 		if self.health == 0:
 			self.die() # TO-DO implement on all classes
-		self.turnUpdate()
+		self.update_()
+
+	def update_(self):
+		pass
 
 	@action
 	def attack_(self, target):

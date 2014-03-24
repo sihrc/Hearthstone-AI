@@ -12,12 +12,11 @@ import effect as E
 
 
 class Minion(Hearth):
-	def init (self, health = 1, attack = 0, cost = 0, statuses = []):
+	def init (self, health = 1, attack = 0, cost = 0):
 		self.health = health
 		self.taunt = False
 		self.attack = attack
 		self.cost = cost
-		self.statuses = statuses
 		self.minion()
 		
 	def action(self):
@@ -41,7 +40,7 @@ class Minion(Hearth):
 		self.owner.field.remove(self)
 
 	def toString(self):
-		return "\n".join([self.name, "Health:\t%d" % self.health, "Attack:\t%d" % self.attack, "Mana Cost:\t%d" % self.cost, "%s" % self.statuses])
+		return "\n\t".join([self.name, "Health:\t%d" % self.health, "Attack:\t%d" % self.attack, "Cost:\t%d" % self.cost, "Desc: %s" % self.description])
 
 class abomination(Minion):
 	def minion(self):

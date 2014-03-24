@@ -27,9 +27,9 @@ class Hero(H.Hearth):
 	def __init__(self):
 		self.health = 30
 		self.maxHealth = 30
-		self.maxMana = 1
+		self.maxMana = 0
 		self.shield = 0
-		self.mana = 1
+		self.mana = 0
 		self.manaOverload = 0
 		self.weapon = W.NoWeapon()
 		self.canAttack = 1
@@ -61,7 +61,7 @@ class Hero(H.Hearth):
 			self.mana -= card.cost
 			return card.action()
 		else:
-			return "%s tried to use %s but failed due to insufficient mana" % (self.name, target.name)
+			return "%s tried to use %s but failed due to insufficient mana" % (self.name, card.name)
 	
 	@action	
 	def summon(self,target, position):
@@ -98,14 +98,17 @@ class Hero(H.Hearth):
 			self.hand.append(card)
 			return "%s has drawn %s" % (self.name, card.name)
 
-	def turnUpdate(self):
+	def startTurn(self):
 		self.drawCards(1)
 		self.maxMana = self.maxMana + 1 if self.maxMana < 10 else self.maxMana
 		self.mana = self.maxMana - self.manaOverload
 		self.manaOverload = 0
 		self.canAttack = 1
 		self.usedPower = False
-		
+
+	def endTurn(self):
+		self.update()
+	
 	def heroAttack(self):
 		target = H.getTarget(self)
 		self.weapon.attack_(target)
@@ -115,14 +118,12 @@ class Hero(H.Hearth):
 
 
 	def toString(self):
-		return "\n".join([self.name, "Health:\t%d" % self.health,\
-		 "Shield:\t%d" % self.shield,\
-		 "Mana:\t%d" % self.mana,\
-		 "Max Mana:\t%d" % self.maxMana,\
+		return "\n".join(["===============","(0)" + self.name.upper(),"===============",\
+ 		 "\t".join(["Health:", str(self.health), "Shield:",str(self.shield),"Mana:", str(self.mana), "Max Mana:", str(self.maxMana)]),\
 		 "Weapon:\t%s" % self.weapon,\
 		 "Secret:\n\t%s" % "\t\n".join([str(secret) for secret in self.secrets]),\
-		 "Hand:\n\t%s" % "\t\n".join([str(card) for card in self.hand]),\
-		 "Field:\n\t%s" % "\t\n".join([str(card) for card in self.field]),\
+		 "Hand:\n%s" % "\t\n".join(["(%d)" % i + str(card) for i,card in enumerate(self.hand)]),\
+		 "Field:\n%s" % "\t\n".join(["(%d)" % i + 1 + str(card) for i,card in enumerate(self.field)]),\
 		 "Deck:\t%d cards" % len(self.deck)])
 
 	@action

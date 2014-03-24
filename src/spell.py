@@ -22,7 +22,7 @@ class Spell(Hearth):
 		self.spell()
 	
 	def toString(self):
-		return "%s\n\tcost:%d\n\tdescription:%s" % (self.name, self.cost, self.description)
+		return "%s\n\tCost: %d\n\tDesc: %s" % (self.name, self.cost, self.description)
 
 	def action(self):
 		self.cast()
@@ -250,7 +250,7 @@ class claw(Spell):
 		self.classs = "Druid"
 		self.cost = 1
 		self.description = "Give your hero +2 Attack this turn and 2 Armor."
-
+	
 class cleave(Spell):
 	def spell(self):
 		self.name = "Cleave"
