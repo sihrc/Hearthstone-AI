@@ -43,7 +43,21 @@ class Nothing(Effect):
 	def apply(self):
 		return 0
 
+class Attack(Effect):
+	def effect(self):
+		self.name = "give attack"
 
+	def execute(self):
+		self.target.attack += 1
+
+class Health(Effect):
+	def effect(self):
+		self.name = "give health"
+
+	def execute(self):
+		self.target.health += 1
+		self.target.maxHealth += 
+1
 class SingleDamage(Effect):
 	def effect(self):
 		self.name = "deal damage"

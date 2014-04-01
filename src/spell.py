@@ -34,6 +34,10 @@ class ancestral_healing(Spell):
 		self.cost = 0
 		self.description = "Restore a minion to full Health and give it Taunt."
 
+	def cast(self):
+		target = getTarget(self.owner)
+		target.
+
 class ancestral_spirit(Spell):
 	def spell(self):
 		self.name = "Ancestral Spirit"
